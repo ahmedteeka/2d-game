@@ -1,0 +1,10 @@
+Best ui grid system
+work with singlton
+make few scnes and test open and close Level
+use unity to save and load level statues
+
+start 2d game
+make the user customize his car and play with it
+chcek wich part of car can be customized
+how to sell items inside the game
+how to make ads

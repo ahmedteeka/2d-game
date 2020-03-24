@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Level_Manager-20200323T195216Z-001/Level_Manager/Level_Menu.unity
+    guid: 096ab4bf220d5b4469760d8642e48791
+  - enabled: 1
+    path: Assets/Level_Manager-20200323T195216Z-001/Level_Manager/Level1.unity
+    guid: fff388ee28bd7fd40ba770f5876683fb
+  - enabled: 1
+    path: Assets/Level_Manager-20200323T195216Z-001/Level_Manager/Level2.unity
+    guid: 9cb6a7ed12667c34eb85521b98975921
+  - enabled: 1
+    path: Assets/Level_Manager-20200323T195216Z-001/Level_Manager/Level3.unity
+    guid: f95508f0eb8cd08468e267400ff54afe
   m_configObjects: {}
