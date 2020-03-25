@@ -18,11 +18,11 @@ public class CarController : MonoBehaviour
 
     public Image  FuelIcon;
     //public float Speed=200;
-    public float Carspeed = 0;
+    public float Carspeed = 80;
     public float movement;
     public float carRotation;
     public float carMovement;
-    public float rotationSpeed=800;
+    public float rotationSpeed=100;
     public Joystick Hjoystick;
     public Joystick Vjoystick;
 
@@ -63,16 +63,17 @@ public class CarController : MonoBehaviour
                 {
             backTire.useMotor = true;
             frontTire.useMotor = true;
-            JointMotor2D motor = new JointMotor2D { motorSpeed = (carMovement *500 * Time.fixedDeltaTime), maxMotorTorque = 10000 };
+            JointMotor2D motor = new JointMotor2D { motorSpeed = (carMovement *600 * Time.fixedDeltaTime), maxMotorTorque = 10000 };
                     backTire.motor = motor;
                     frontTire.motor = motor;
-            // rotate the car   
            
         }
         if (fuel > 0)
         {
             fuel -= fuleconsumption * Mathf.Abs(Vjoystick.Vertical) * Time.fixedDeltaTime;
         }
+        // rotate the car   
+
         carRiggedBody.AddTorque(-carRotation *rotationSpeed * Time.fixedDeltaTime);
     }
 }
