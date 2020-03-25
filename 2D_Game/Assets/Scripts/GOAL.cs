@@ -20,16 +20,12 @@ public class GOAL : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter(Collider target)
+    void OnTriggerEnter2D (Collider2D target)
     {
         if (target.CompareTag("Player"))
         {
-
-            
             PlayerPrefs.SetInt("levelReached", unlock);
             level_complete.SetActive(true);
-
-
         }
     }
 }

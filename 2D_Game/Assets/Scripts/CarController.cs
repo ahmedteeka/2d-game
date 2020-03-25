@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
@@ -17,10 +18,15 @@ public class CarController : MonoBehaviour
 
     public Image  FuelIcon;
     //public float Speed=200;
-    public float CarTourque = 0;
+    public float Carspeed = 0;
     public float movement;
+    public float carRotation;
+    public float carMovement;
+    public float rotationSpeed=800;
+    public Joystick Hjoystick;
+    public Joystick Vjoystick;
 
-       public void FuelBttnPressed()
+    /*   public void FuelBttnPressed()
     {
         CarTourque = 0;
         movement = 2;
@@ -31,17 +37,23 @@ public class CarController : MonoBehaviour
         frontTire.useMotor = true;
         CarTourque =300;
         movement = .001f;
-    }
+    }*/
         // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("space")) {
 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex );
+        }
+        //-1 to 1
+        carRotation = Hjoystick.Horizontal* rotationSpeed;
+        carMovement = Vjoystick.Vertical* Carspeed;
         FuelIcon.fillAmount = fuel;
     }
     private void FixedUpdate()
     {
          //Un check Use Motor
-        if (movement == 0f|| fuel <=0)
+        if (carMovement == 0f|| fuel <=0)
             {
                 backTire.useMotor = false;
                 frontTire.useMotor = false;
@@ -51,14 +63,16 @@ public class CarController : MonoBehaviour
                 {
             backTire.useMotor = true;
             frontTire.useMotor = true;
-            JointMotor2D motor = new JointMotor2D { motorSpeed = (movement * 18000 * Time.fixedDeltaTime), maxMotorTorque = 10000 };
+            JointMotor2D motor = new JointMotor2D { motorSpeed = (carMovement *500 * Time.fixedDeltaTime), maxMotorTorque = 10000 };
                     backTire.motor = motor;
                     frontTire.motor = motor;
-              // rotate the car      carRiggedBody.AddTorque(- CarTourque * Time.fixedDeltaTime);
+            // rotate the car   
+           
         }
         if (fuel > 0)
         {
-            fuel -= fuleconsumption * Mathf.Abs(movement) * Time.fixedDeltaTime;
+            fuel -= fuleconsumption * Mathf.Abs(Vjoystick.Vertical) * Time.fixedDeltaTime;
         }
+        carRiggedBody.AddTorque(-carRotation *rotationSpeed * Time.fixedDeltaTime);
     }
 }
