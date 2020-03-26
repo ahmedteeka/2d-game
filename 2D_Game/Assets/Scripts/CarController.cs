@@ -19,37 +19,36 @@ public class CarController : MonoBehaviour
     public Image  FuelIcon;
     //public float Speed=200;
     public float Carspeed = 80;
+    //public float MaxCarspeed = 80;
     public float movement;
     public float carRotation;
     public float carMovement;
     public float rotationSpeed=100;
-    public Joystick Hjoystick;
+   // public Joystick Hjoystick;
     public Joystick Vjoystick;
+    public Joystick Floatingjoystick;
 
-    /*   public void FuelBttnPressed()
-    {
-        CarTourque = 0;
-        movement = 2;
-    }
-    public void BreakBttnPressed()
-    {
-        backTire.useMotor = true;
-        frontTire.useMotor = true;
-        CarTourque =300;
-        movement = .001f;
-    }*/
-        // Update is called once per frame
+
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("space")) {
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex );
+        if (Input.GetKeyDown("space"))
+        {
+            RestartLevel();
         }
+        Debug.Log(Vjoystick.Vertical);
+       
         //-1 to 1
-        carRotation = Hjoystick.Horizontal* rotationSpeed;
+        carRotation = Floatingjoystick.Horizontal* rotationSpeed;
         carMovement = Vjoystick.Vertical* Carspeed;
         FuelIcon.fillAmount = fuel;
     }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void FixedUpdate()
     {
          //Un check Use Motor
@@ -64,7 +63,7 @@ public class CarController : MonoBehaviour
             backTire.useMotor = true;
             frontTire.useMotor = true;
             JointMotor2D motor = new JointMotor2D { motorSpeed = (carMovement *600 * Time.fixedDeltaTime), maxMotorTorque = 10000 };
-                    backTire.motor = motor;
+                   backTire.motor = motor;
                     frontTire.motor = motor;
            
         }
