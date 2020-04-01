@@ -18,11 +18,11 @@ public class CarController : MonoBehaviour
     public float            carRotation;
     public float            carMovement;
     public float            rotationSpeed = 100;
+    public float     distToGround = 0;
     public FixedJoystick    Right_joystick;
     public Joystick         Floatingjoystick;
-    
-
-
+    // public bool IsGrounded;
+    public LayerMask groundLayer;
     // Update is called once per frame
     void Update()
     {
@@ -30,29 +30,53 @@ public class CarController : MonoBehaviour
         {
             RestartLevel();
         }
+        carMovement = Right_joystick.Vertical * Carspeed;
         //-1 to 1
         carRotation = Floatingjoystick.Horizontal * rotationSpeed;
-        
-        //carMovement = Right_joystick.Vertical * Carspeed;
+
+        carMovement = Right_joystick.Vertical * Carspeed;
 
         FuelIcon.fillAmount = fuel;
-        
-        if (Right_joystick.Vertical > 0)
+
+        if (Right_joystick.Vertical > 0&& IsGrounded())
         {
-            if(Carspeed<maxCarspeed)
-            Carspeed+=20*Time.deltaTime;
+            if (Carspeed < maxCarspeed)
+                Carspeed += 20 * Time.deltaTime;
             carMovement = Right_joystick.Vertical * Carspeed;
 
         }
 
-
-        if (carMovement > 0)
+        if (Right_joystick.Vertical==0&&Carspeed>0)
         {
-            Carspeed -= 1 * Time.deltaTime;
+            Carspeed -= 15 * Time.deltaTime;
+
         }
+       
+
         
-        Location.transform.Translate(Vector3.left * carMovement * Time.deltaTime);
+            Location.transform.Translate(Vector3.left * Carspeed * Time.deltaTime);
+        }
+    
+    bool IsGrounded()
+    {
+        Vector2 position = transform.position;
+        Vector2 direction = Vector2.down;
+        float distance = 3.0f;
+
+        RaycastHit2D hit = Physics2D.Raycast(backTire.transform.position, direction, distance, groundLayer);
+        if (hit.collider != null)
+        {
+            return true;
+        }
+
+        return false;
     }
+
+
+
+
+
+
 
     public void RestartLevel()
     {
