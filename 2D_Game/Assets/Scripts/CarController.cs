@@ -20,13 +20,13 @@ public class CarController : MonoBehaviour
     public WheelJoint2D     backTire;
     public WheelJoint2D     frontTire;
     public Image            FuelIcon;
-    public float            Carspeed = 80;
+    public float            Carspeed = 0;
     public float            carBodyWeight = 0;
-    public float            maxCarspeed = 80;
+    public float            maxCarspeed = 50;
     public float            carRotation;
-    public float            rotationSpeed = 100;
+    public float            rotationSpeed = 50;
     public float            carMovement;
-    public float            distToGround = 0;
+    public float            distToGround = 1.8f;
     public int              slowDownSpeedValue = 20;
     public bool             speedUp =false;
     public LayerMask         groundLayer;
@@ -48,16 +48,12 @@ public class CarController : MonoBehaviour
         if (Input.touchCount > 0)
             {
                 theTouch = Input.GetTouch(0);
-                if (theTouch.phase == TouchPhase.Ended)
-                {
-                       speedUp = false;
-                        carRotation = 0;
 
-            }
+            
             if (theTouch.phase == TouchPhase.Began)
                 {
                     touchStartPosition = theTouch.position;
-                if(IsGrounded()) speedUp = true;
+                    if(IsGrounded()) speedUp = true;
 
                 }
 
@@ -66,28 +62,32 @@ public class CarController : MonoBehaviour
                     touchEndPosition = theTouch.position;
 
                     float x = touchEndPosition.x - touchStartPosition.x;
-                    float y = touchEndPosition.y - touchStartPosition.y;
-
-                    if (Mathf.Abs(x) == 0 && Mathf.Abs(y) == 0)
+                // float y = touchEndPosition.y - touchStartPosition.y;
+                direction = "";
+                    if (Mathf.Abs(x) == 0 )
                     {
                         direction = "Tapped";
 
                     }
-                    else if (Mathf.Abs(x) > Mathf.Abs(y))
-                    {
-                        direction = x > .3 ? "Right" : "Left";
+                    else if (Mathf.Abs(x) > 60)
+                {
+                        direction = x > 60 ? "Right" : "Left";
                         if (direction == "Right") carRotation =- rotationSpeed;
                         if (direction == "Left") carRotation = rotationSpeed;
-
-                        
+                                                
                     }
 
                     else
                     {
-                        direction = y > 0 ? "Up" : "Down";
+                      //  direction = y > 0 ? "Up" : "Down";
                     }
                 }
-             }
+            if (theTouch.phase == TouchPhase.Ended)
+            {
+                speedUp = false;
+                carRotation = 0;
+            }
+        }
         if (speedUp)
         {
                 carMovement = Carspeed;
@@ -150,8 +150,8 @@ public class CarController : MonoBehaviour
         //Un check Use Motor
         if (carMovement == 0f || fuel <= 0)
         {
-          //  backTire.useMotor = false;
-          //    frontTire.useMotor = false;
+            backTire.useMotor = false;
+              frontTire.useMotor = false;
         }
 
         else
